@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use the CMRM Virtual Rhythm Lab in teaching or research, please cite this software."
+title: "CMRM Virtual Rhythm Lab"
+type: software
+authors:
+  - family-names: "Sarti"
+    given-names: "Augusto"
+version: "1.0"
+date-released: 2026-09-26
+license: "BSD-3-Clause"
+repository-code: "https://github.com/augusto-sarti/CMRM-Virtual-Rhythm-Lab"
+abstract: >-
+  Interactive teaching notebooks accompanying Computer Music Representations
+  and Models (CMRM), with experiments on onset evidence, periodicity,
+  autocorrelation, phase autocorrelation, rhythmograms, beat tracking,
+  polymetric structure, rhythmic clusters, and the Sound of Muzak case study.
+  Original rhythm-analysis material and the synthetic Sound of Muzak example
+  include contributions by Bruno Di Giorgi. The APM influence-set interpretation
+  includes contributions by Riccardo Gianpiccolo.
+keywords:
+  - rhythm analysis
+  - computer music
+  - music information retrieval
+  - autocorrelation
+  - phase autocorrelation
+  - beat tracking
+  - polymeter
+  - Jupyter
+  - teaching software
