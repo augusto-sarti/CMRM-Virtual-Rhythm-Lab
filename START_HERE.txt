@@ -1,0 +1,30 @@
+CMRM VIRTUAL RHYTHM LAB
+=======================
+
+This directory contains the complete current teaching-lab package.
+
+Start here:
+  1. README.md              - overview of the lab
+  2. PROVENANCE.md          - origin and attribution of the material
+  3. notebooks/00_Start_Here.ipynb
+                             - entry point for the interactive labs
+
+Main interactive notebooks:
+  notebooks/01_Onset_Detection.ipynb
+  notebooks/02_Autocorrelation_and_Periodicity.ipynb
+  notebooks/03_APM_Anatomy_and_Cyclostationarity.ipynb
+  notebooks/04_Rhythmogram_and_Tempo_Path.ipynb
+  notebooks/05_Beat_Tracking_and_Multiple_Hypotheses.ipynb
+  notebooks/06_Sound_of_Muzak_End_to_End.ipynb
+  notebooks/07_Rhythmic_Clusters_and_Transformations.ipynb
+
+Other folders:
+  previews/      pre-rendered HTML examples for viewing without executing code
+  executed/      executed notebook copies
+  legacy_notes/  preserved source/reference notebooks
+  assets/        shared assets, if any
+
+requirements.txt lists the Python dependencies for local execution.
+
+The next deployment step is to place this directory in a public repository
+(e.g. GitHub) and create direct links/QR codes from the book to selected labs.
