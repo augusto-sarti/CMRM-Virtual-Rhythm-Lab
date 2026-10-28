@@ -1,6 +1,6 @@
-# CMRM Virtual Rhythm Lab v1
+# CMRM Virtual Rhythm Lab
 
-A merged and expanded teaching laboratory for Chapter 3 of *Computer Music Representations and Models*.
+A merged and expanded teaching laboratory for Chapter 3 of *Representing and Modelling Music*.
 
 ## What is included
 
@@ -15,7 +15,7 @@ A merged and expanded teaching laboratory for Chapter 3 of *Computer Music Repre
 
 ## How to use locally
 
-Install Python 3 plus `numpy`, `scipy`, `matplotlib`, `jupyter`, then open the notebooks in Jupyter. The notebooks are intentionally self-contained so they can later be placed on GitHub and opened in Google Colab.
+Install Python 3 plus `numpy`, `scipy`, `matplotlib`, `jupyter`, then open the notebooks in Jupyter. The notebooks are self-contained and can also be opened directly in Google Colab using the links below.
 
 ## Interactive Polymetric Visualizer
 
@@ -23,7 +23,20 @@ The browser-based **Polymetric Visualizer** used in Chapter 3 is available direc
 
 <https://augusto-sarti.github.io/CMRM-Virtual-Rhythm-Lab/polymetric-visualizer/>
 
-It runs in a modern browser with no installation and no GitHub account. A self-contained offline copy is also included in this package at `interactive/polymetric-visualizer/index.html`; double-click that file to run it locally.
+It runs in a modern browser with no installation and no GitHub account. In the GitHub repository, its source lives at `polymetric-visualizer/index.html`. The separately distributed offline teaching ZIP contains the same visualizer under `interactive/polymetric-visualizer/index.html`. Open either local HTML file in a modern browser.
+
+## Open the notebooks in Google Colab
+
+These links open the notebooks from the public `main` branch (and therefore require its corresponding files to be present in the GitHub repository):
+
+- [00 — Start Here](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/00_Start_Here.ipynb)
+- [01 — Onset Detection](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/01_Onset_Detection.ipynb)
+- [02 — Autocorrelation and Periodicity](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/02_Autocorrelation_and_Periodicity.ipynb)
+- [03 — APM Anatomy and Cyclostationarity](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/03_APM_Anatomy_and_Cyclostationarity.ipynb)
+- [04 — Rhythmogram and Tempo Path](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/04_Rhythmogram_and_Tempo_Path.ipynb)
+- [05 — Beat Tracking and Multiple Hypotheses](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/05_Beat_Tracking_and_Multiple_Hypotheses.ipynb)
+- [06 — Sound of Muzak End to End](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/06_Sound_of_Muzak_End_to_End.ipynb)
+- [07 — Rhythmic Clusters and Transformations](https://colab.research.google.com/github/augusto-sarti/CMRM-Virtual-Rhythm-Lab/blob/main/notebooks/07_Rhythmic_Clusters_and_Transformations.ipynb)
 
 ## Provenance
 
@@ -35,4 +48,4 @@ No commercial Porcupine Tree recording is included. The notebook links to an ext
 
 ## Public release
 
-Before publishing the repository, add the final agreed open-source license and `CITATION.cff`.
+The public GitHub repository includes its `LICENSE` and `CITATION.cff`. These documents should be retained in the online repository even if they are absent from a separately distributed teaching ZIP.
