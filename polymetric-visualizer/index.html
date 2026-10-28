@@ -18,7 +18,7 @@ select{width:105px;padding:7px;border:1px solid var(--line);border-radius:7px;fo
 <svg id="viz" viewBox="0 0 1200 440" aria-label="Synchronized translated rational metric structures"></svg>
 <footer><span>Space = play/pause</span><span>Arbitrary denominators · exact rational phase · Web Audio clock</span></footer>
 </main><script>
-(()=>{const $=x=>document.getElementById(x),S=$("viz"),NS="http://www.w3.org/2000/svg";let ac=null,r=false,t0=0,held=0,raf=0,nextA=0,nextB=0,timer=0;
+(()=>{const $=x=>document.getElementById(x),S=$("viz"),NS="http://www.w3.org/2000/svg";let ac=null,r=false,t0=0,held=0,raf=0,nextA=0,nextB=0,timer=0,bus=null;
 const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a),lcm=(a,b)=>Math.abs(a*b)/gcd(a,b);
 function val(id,lo,hi){return Math.max(lo,Math.min(hi,Math.round(+$(id).value||lo)))}
 function P(){return{b:+$("bpm").value*($("slow").checked?.5:1),A:{n:val("na",1,64),d:val("da",1,64),s:val("sa",1,16),m:$("ma").checked,timbre:$("soundA").value},B:{n:val("nb",1,64),d:val("db",1,64),s:val("sb",1,16),m:$("mb").checked,timbre:$("soundB").value},p:val("pp",0,64),q:val("pq",1,64)}}
@@ -34,19 +34,40 @@ function layer(L,y,col,name,offset=0){S.append(E("text",{x:18,y:y+6,fill:col,"fo
 layer(p.A,145,"#137f92","A",0);layer(p.B,300,"#d98528","B",phQ);
 if(phQ>0&&phQ<c){let xp=x0+W*phQ/c;S.append(E("line",{x1:xp,y1:220,x2:xp,y2:360,stroke:"#76588c","stroke-width":2,"stroke-dasharray":"5 5"}));S.append(E("text",{x:xp+6,y:232,fill:"#76588c","font-size":12},"φB"))}
 let playPhase=cs?(t%cs)/cs:0,x=x0+W*playPhase;S.append(E("line",{x1:x,y1:65,x2:x,y2:370,stroke:"#26383d","stroke-width":2.5}));S.append(E("circle",{cx:x,cy:145,r:13,fill:"#137f92",stroke:"white","stroke-width":3}));S.append(E("circle",{cx:x,cy:300,r:13,fill:"#d98528",stroke:"white","stroke-width":3}))}
-function wood(w,a,m){if(m||!ac)return;let n=ac.createBuffer(1,Math.floor(ac.sampleRate*.035),ac.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ac.sampleRate*.006));let s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=n;f.type="bandpass";f.frequency.value=a?3200:2400;f.Q.value=2.8;g.gain.setValueAtTime(a?.42:.27,w);g.gain.exponentialRampToValueAtTime(.0001,w+.04);s.connect(f).connect(g).connect(ac.destination);s.start(w)}
-function drum(w,a,m){if(m||!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(a?145:105,w);o.frequency.exponentialRampToValueAtTime(a?70:55,w+.13);g.gain.setValueAtTime(a?.42:.29,w);g.gain.exponentialRampToValueAtTime(.0001,w+.19);o.connect(g).connect(ac.destination);o.start(w);o.stop(w+.2)}
+function wood(w,a,m){if(m||!ac)return;let n=ac.createBuffer(1,Math.floor(ac.sampleRate*.035),ac.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ac.sampleRate*.006));let s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=n;f.type="bandpass";f.frequency.value=a?3200:2400;f.Q.value=2.8;g.gain.setValueAtTime(a?.42:.27,w);g.gain.exponentialRampToValueAtTime(.0001,w+.04);s.connect(f).connect(g).connect(bus);s.start(w)}
+function drum(w,a,m){if(m||!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(a?145:105,w);o.frequency.exponentialRampToValueAtTime(a?70:55,w+.13);g.gain.setValueAtTime(a?.42:.29,w);g.gain.exponentialRampToValueAtTime(.0001,w+.19);o.connect(g).connect(bus);o.start(w);o.stop(w+.2)}
 
-function kick(w,a,m){if(m||!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.setValueAtTime(a?170:135,w);o.frequency.exponentialRampToValueAtTime(48,w+.14);g.gain.setValueAtTime(a?.55:.42,w);g.gain.exponentialRampToValueAtTime(.0001,w+.22);o.connect(g).connect(ac.destination);o.start(w);o.stop(w+.24)}
-function snare(w,a,m){if(m||!ac)return;let dur=.12,n=ac.createBuffer(1,Math.floor(ac.sampleRate*dur),ac.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ac.sampleRate*(a?.035:.025)));let s=ac.createBufferSource(),hp=ac.createBiquadFilter(),g=ac.createGain();s.buffer=n;hp.type="highpass";hp.frequency.value=1100;g.gain.setValueAtTime(a?.38:.27,w);g.gain.exponentialRampToValueAtTime(.0001,w+dur);s.connect(hp).connect(g).connect(ac.destination);s.start(w)}
-function rim(w,a,m){if(m||!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.type="square";o.frequency.value=a?1900:1550;g.gain.setValueAtTime(a?.16:.11,w);g.gain.exponentialRampToValueAtTime(.0001,w+.025);o.connect(g).connect(ac.destination);o.start(w);o.stop(w+.03)}
+function kick(w,a,m){if(m||!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.setValueAtTime(a?170:135,w);o.frequency.exponentialRampToValueAtTime(48,w+.14);g.gain.setValueAtTime(a?.55:.42,w);g.gain.exponentialRampToValueAtTime(.0001,w+.22);o.connect(g).connect(bus);o.start(w);o.stop(w+.24)}
+function snare(w,a,m){if(m||!ac)return;let dur=.12,n=ac.createBuffer(1,Math.floor(ac.sampleRate*dur),ac.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ac.sampleRate*(a?.035:.025)));let s=ac.createBufferSource(),hp=ac.createBiquadFilter(),g=ac.createGain();s.buffer=n;hp.type="highpass";hp.frequency.value=1100;g.gain.setValueAtTime(a?.38:.27,w);g.gain.exponentialRampToValueAtTime(.0001,w+dur);s.connect(hp).connect(g).connect(bus);s.start(w)}
+function rim(w,a,m){if(m||!ac)return;let o=ac.createOscillator(),g=ac.createGain();o.type="square";o.frequency.value=a?1900:1550;g.gain.setValueAtTime(a?.16:.11,w);g.gain.exponentialRampToValueAtTime(.0001,w+.025);o.connect(g).connect(bus);o.start(w);o.stop(w+.03)}
 function sound(name,w,a,m){({wood,drum,kick,snare,rim}[name]||wood)(w,a,m)}
 
-function sched(){if(!r||!ac)return;let p=P(),now=ac.currentTime,H=now+.12,secQ=60/p.b,off=phaseQ(p)*secQ;for(let k of ["A","B"]){let L=p[k],n=k==="A"?nextA:nextB,iv=secQ*(4/L.d)/L.s;if(k==="B"&&n===t0+.06)n+=off;while(n<H){let rel=n-t0+held-(k==="B"?off:0),ix=Math.round(rel/iv),accent=((ix%(L.n*L.s))+(L.n*L.s))%(L.n*L.s)===0;sound(L.timbre,n,accent,L.m);n+=iv}if(k==="A")nextA=n;else nextB=n}timer=setTimeout(sched,35)}
-function frame(){if(!r)return;draw(held+ac.currentTime-t0);raf=requestAnimationFrame(frame)}
-async function play(){if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();await ac.resume();if(r)return;r=true;t0=ac.currentTime;nextA=nextB=t0+.06;sched();frame()}
-function pause(){if(!r)return;held+=ac.currentTime-t0;r=false;clearTimeout(timer);cancelAnimationFrame(raf);draw(held)}
-function reset(){r=false;clearTimeout(timer);cancelAnimationFrame(raf);held=0;draw(0)}
-function changed(){syncSlider();if(r){held+=ac.currentTime-t0;t0=ac.currentTime;nextA=nextB=t0+.06}draw(r?held+ac.currentTime-t0:held)}
+// Sound and cursor use the same musical timeline; each event has an integer pulse index.
+const LEAD=.06, LOOKAHEAD=.12;
+function silenceQueued(){if(bus){bus.gain.setValueAtTime(0,ac.currentTime);bus=null}}
+function freshBus(){silenceQueued();bus=ac.createGain();bus.connect(ac.destination)}
+function initialIndices(){let p=P(),secQ=60/p.b,off=phaseQ(p)*secQ;
+  const first=(o,iv)=>Math.max(0,Math.ceil((held-o-1e-9)/iv));
+  nextA=first(0,secQ*(4/p.A.d)/p.A.s);
+  nextB=first(off,secQ*(4/p.B.d)/p.B.s);
+}
+function sched(){if(!r||!ac)return;
+  let p=P(),now=ac.currentTime,H=now+LOOKAHEAD,secQ=60/p.b,off=phaseQ(p)*secQ;
+  for(let k of ["A","B"]){let L=p[k],idx=k==="A"?nextA:nextB,iv=secQ*(4/L.d)/L.s,origin=k==="B"?off:0;
+    while(true){let when=t0+origin+idx*iv-held;if(when>=H)break;
+      if(when>=now+.003){let accent=idx%(L.n*L.s)===0;sound(L.timbre,when,accent,L.m)}
+      idx++;
+    }
+    if(k==="A")nextA=idx;else nextB=idx;
+  }
+  timer=setTimeout(sched,35);
+}
+function elapsed(){return held+(r?Math.max(0,ac.currentTime-t0):0)}
+function frame(){if(!r)return;draw(elapsed());raf=requestAnimationFrame(frame)}
+async function play(){if(r)return;if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();await ac.resume();if(r)return;
+  r=true;t0=ac.currentTime+LEAD;freshBus();initialIndices();sched();frame()}
+function pause(){if(!r)return;held=elapsed();r=false;clearTimeout(timer);cancelAnimationFrame(raf);silenceQueued();draw(held)}
+function reset(){r=false;clearTimeout(timer);cancelAnimationFrame(raf);if(ac)silenceQueued();held=0;draw(0)}
+function changed(){syncSlider();if(r){held=elapsed();t0=ac.currentTime+LEAD;freshBus();initialIndices()}draw(elapsed())}
 $("play").onclick=play;$("pause").onclick=pause;$("reset").onclick=reset;$("prev").onclick=()=>setP(val("pp",0,64)-1);$("next").onclick=()=>setP(val("pp",0,64)+1);$("phaseSlider").oninput=()=>{$("pp").value=$("phaseSlider").value;changed()};document.querySelectorAll("input:not(#phaseSlider),select").forEach(e=>e.addEventListener("input",changed));document.addEventListener("keydown",e=>{if(e.code==="Space"&&document.activeElement.tagName!=="INPUT"){e.preventDefault();r?pause():play()}});syncSlider();draw()})();
 </script></body></html>
